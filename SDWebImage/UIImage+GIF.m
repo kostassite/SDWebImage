@@ -11,6 +11,31 @@
 
 @implementation UIImage (GIF)
 
++ (NSArray*)sd_getImagesFromGifWithData:(NSData*)data{
+    if (!data) {
+        return nil;
+    }
+    
+    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+    
+    size_t count = CGImageSourceGetCount(source);
+    
+    NSMutableArray *imagesArray = [[NSMutableArray alloc]init];
+    if (count <= 1) {
+        [imagesArray addObject: [[UIImage alloc] initWithData:data]];
+    }else{
+        for (size_t i = 0; i < count; i++) {
+            CGImageRef image = CGImageSourceCreateImageAtIndex(source, i, NULL);
+    
+            [imagesArray addObject:[UIImage imageWithCGImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp]];
+
+            CGImageRelease(image);
+        }
+    }
+    
+    return imagesArray;
+}
+
 + (UIImage *)sd_animatedGIFWithData:(NSData *)data {
     if (!data) {
         return nil;

@@ -10,6 +10,8 @@
 
 @interface UIImage (GIF)
 
++ (NSArray*)sd_getImagesFromGifWithData:(NSData*)data;
+
 + (UIImage *)sd_animatedGIFNamed:(NSString *)name;
 
 + (UIImage *)sd_animatedGIFWithData:(NSData *)data;
